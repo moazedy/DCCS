@@ -4,8 +4,9 @@ import (
 	"github.com/google/uuid"
 )
 
-type contract struct {
+type Contract struct {
 	Id                         uuid.UUID     `json:"id"`
+	Title                      string        `json:"title"`
 	GovernmentContract         bool          `json:"government_contract"`
 	Complex                    bool          `josn:"complex"`
 	TimeRange                  TimeRangeType `json:"time_range"`
