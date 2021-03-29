@@ -11,7 +11,7 @@ const (
 )
 
 const (
-	EachTermPercent = 4.7619
+	EachTermPercent = 5.8823
 )
 
 const (
