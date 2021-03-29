@@ -14,6 +14,7 @@ type ContractRepo interface {
 	Save(con models.Contract) error
 	ReadById(id string) (*models.Contract, error)
 	ReadByTitle(title string) (*models.Contract, error)
+	ReadByIntValue(intValue int64) (*models.Contract, error)
 }
 
 type contract struct {
@@ -97,4 +98,33 @@ func (c *contract) ReadByTitle(title string) (*models.Contract, error) {
 	}
 
 	return &con, nil
+}
+
+func (c *contract) ReadByIntValue(intValue int64) (*models.Contract, error) {
+	res, err := c.session.Query(
+		queries.ReadContractByIntValue,
+		&gocb.QueryOptions{NamedParameters: map[string]interface{}{
+			"intval": intValue,
+		}},
+	)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	var con models.Contract
+	for res.Next() {
+		err = res.Row(&con)
+		if err != nil {
+			if err == gocb.ErrNoResult {
+				return nil, errors.New("contract does not exist !")
+			}
+
+			log.Println(err.Error())
+			return nil, err
+		}
+	}
+
+	return &con, nil
+
 }

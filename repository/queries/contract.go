@@ -10,4 +10,7 @@ const (
 
 	ReadContractByTitleQuery = `SELECT ` + constants.ContractsBucket + `.*  FROM  ` + constants.ContractsBucket +
 		` WHERE title=$title `
+
+	ReadContractByIntValue = `SELECT ` + constants.ContractsBucket + `.*  FROM  ` + constants.ContractsBucket +
+		` WHERE int_value=$intval `
 )
