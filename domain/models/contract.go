@@ -7,6 +7,8 @@ import (
 type Contract struct {
 	Id                             uuid.UUID `json:"id"`
 	Title                          string    `json:"title"`
+	SerialValue                    string    `json:"serial_value"`
+	IntValue                       int64     `json:"int_value"`
 	GovernmentContract             bool      `json:"government_contract"`
 	PrivateContract                bool      `json:private_contract`
 	Complex                        bool      `josn:"complex"`
