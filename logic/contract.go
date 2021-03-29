@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"DCCS/application/utils"
 	"DCCS/constants"
 	"DCCS/domain/models"
 	"DCCS/repository"
@@ -28,8 +29,15 @@ func NewContractLogic(repo repository.ContractRepo) ContractLogic {
 
 func (c *contract) Save(con models.Contract) error {
 	con.Id = uuid.New()
+	serialValue := utils.ToSerialCode(con)
+	con.SerialValue = serialValue
+	ContractIntValue, err := utils.SerialCodeToIntValue(serialValue)
+	if err != nil {
+		return err
+	}
+	con.IntValue = *ContractIntValue
 
-	err := c.repo.Save(con)
+	err = c.repo.Save(con)
 	if err != nil {
 		return err
 	}
