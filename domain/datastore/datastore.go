@@ -13,8 +13,8 @@ func NewCouchbaseSession() (*gocb.Cluster, error) {
 	cluster, err := gocb.Connect(
 		constants.CouchbaseAddress,
 		gocb.ClusterOptions{
-			Username: "admin",
-			Password: "adminadmin",
+			Username: constants.CouchbaseUsername,
+			Password: constants.CouchbasePassword,
 		},
 	)
 	if err != nil {

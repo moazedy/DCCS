@@ -5,10 +5,10 @@ import (
 )
 
 type Contract struct {
-	Id                             uuid.UUID `json:"id"`
+	Id                             uuid.UUID `json:"id,omitempty"`
 	Title                          string    `json:"title"`
-	SerialValue                    string    `json:"serial_value"`
-	IntValue                       int64     `json:"int_value"`
+	SerialValue                    string    `json:"serial_value,omitempty"`
+	IntValue                       int64     `json:"int_value,omitempty"`
 	GovernmentContract             bool      `json:"government_contract"`
 	PrivateContract                bool      `json:private_contract`
 	Complex                        bool      `josn:"complex"`
