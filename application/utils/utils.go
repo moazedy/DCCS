@@ -32,10 +32,14 @@ func convertContractToContractSerialDataTemplate(con models.Contract) models.Con
 	}
 }
 
-func ToSerialCode(c models.Contract) string {
-	var codedStruct string
+func ContractToSerialCode(c models.Contract) string {
 	serialDataTemplate := convertContractToContractSerialDataTemplate(c)
-	values := reflect.ValueOf(serialDataTemplate)
+	return TemplateToSerialCode(serialDataTemplate)
+}
+
+func TemplateToSerialCode(serialTemplate models.ContractSerialDataTemplate) string {
+	var codedStruct string
+	values := reflect.ValueOf(serialTemplate)
 
 	for i := 0; i < values.NumField(); i++ {
 		if values.Field(i).Interface().(bool) {
@@ -46,6 +50,7 @@ func ToSerialCode(c models.Contract) string {
 	}
 
 	return codedStruct
+
 }
 
 func SerialCodeToIntValue(serial string) (*int64, error) {
