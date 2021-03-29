@@ -1,8 +1,15 @@
 package main
 
-import "DCCS/domain/datastore"
+import (
+	"DCCS/application/utils"
+	"DCCS/domain/models"
+	"fmt"
+
+	"github.com/google/uuid"
+)
 
 func main() {
 
-	datastore.CouchbasePing()
+	// datastore.CouchbasePing()
+
 }
