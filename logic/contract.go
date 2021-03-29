@@ -14,6 +14,8 @@ type ContractLogic interface {
 	Save(con models.Contract) error
 	ReadById(id string) (*models.Contract, error)
 	ReadByTitle(title string) (*models.Contract, error)
+	ReadByIntValue(con models.ContractSerialDataTemplate) (*models.Contract, error)
+	GetSimilarContracts(con models.ContractSerialDataTemplate, resultSize int) ([]models.CompareResult, error)
 }
 
 type contract struct {
@@ -29,7 +31,7 @@ func NewContractLogic(repo repository.ContractRepo) ContractLogic {
 
 func (c *contract) Save(con models.Contract) error {
 	con.Id = uuid.New()
-	serialValue := utils.ToSerialCode(con)
+	serialValue := utils.ContractToSerialCode(con)
 	con.SerialValue = serialValue
 	ContractIntValue, err := utils.SerialCodeToIntValue(serialValue)
 	if err != nil {
@@ -70,4 +72,35 @@ func (c *contract) ReadByTitle(title string) (*models.Contract, error) {
 	}
 
 	return con, nil
+}
+
+func (c contract) ReadByIntValue(con models.ContractSerialDataTemplate) (*models.Contract, error) {
+	requestSerialValue := utils.TemplateToSerialCode(con)
+	requestIntValue, err := utils.SerialCodeToIntValue(requestSerialValue)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := c.repo.ReadByIntValue(*requestIntValue)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (c contract) GetSimilarContracts(con models.ContractSerialDataTemplate, resultSize int) ([]models.CompareResult, error) {
+	requestSerialValue := utils.TemplateToSerialCode(con)
+	primaryResult, err := utils.CompareReceivedSerialData(requestSerialValue)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]models.CompareResult, resultSize)
+	lenth := len(primaryResult)
+	for i := 1; i <= resultSize; i++ {
+		result[i-1] = primaryResult[lenth-i]
+	}
+
+	return result, nil
 }
