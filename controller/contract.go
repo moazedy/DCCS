@@ -15,7 +15,7 @@ type ContractController interface {
 	ReadByIntValue(ctx *gin.Context)
 	//CheckContractExistance(ctx *gin.Context)
 	GetContractSimilars(ctx *gin.Context)
-	//ContractMainSearch(ctx *gin.Context)
+	ContractMainSearch(ctx *gin.Context)
 }
 
 type contract struct {
@@ -104,5 +104,47 @@ func (c *contract) ReadByIntValue(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, res)
+	if res.Title != "" {
+		ctx.JSON(http.StatusOK, res)
+		return
+	}
+
+	ctx.JSON(http.StatusNotFound, gin.H{"message": "no matches found !"})
+
+}
+
+func (c *contract) ContractMainSearch(ctx *gin.Context) {
+	var request models.ContractSerialDataTemplate
+
+	err := ctx.BindJSON(&request)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message:": "seems you have sent imperfect request"})
+		return
+	}
+
+	exact, err := c.logic.ReadByIntValue(request)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message:": "error on system functions",
+			"error": err.Error()})
+		return
+	}
+	if exact != nil && exact.Title != "" {
+		resultMap := make(map[string]interface{})
+		resultMap["title"] = exact.Title
+		resultMap["id"] = exact.Id
+		resultMap["int value"] = exact.IntValue
+		resultMap["serial value"] = exact.SerialValue
+		ctx.JSON(http.StatusOK, gin.H{"your sent ditails are match with this type of contract: ": resultMap})
+		return
+	}
+
+	similars, err := c.logic.GetSimilarContracts(request, 3)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message:": "error on system functions",
+			"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"there are no exact match contracts with your sent ditails, but there are similars : ": similars})
+
 }

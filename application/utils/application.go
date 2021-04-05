@@ -28,6 +28,9 @@ func CompareReceivedSerialData(received string) ([]models.CompareResult, error) 
 			}
 
 		}
+		if percent > 99 {
+			percent = 100
+		}
 		result[i] = models.CompareResult{
 			EqualityPercent: percent,
 			ContractId:      cObject.ContractId,

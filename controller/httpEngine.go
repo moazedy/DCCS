@@ -29,6 +29,7 @@ func Run(port string) {
 	con.GET("read/title/:title", contractController.ReadByTitle)
 	con.POST("/search/exact", contractController.ReadByIntValue)
 	con.POST("/search/similars", contractController.GetContractSimilars)
+	con.POST("/search/main", contractController.ContractMainSearch)
 
 	engine.Run(":" + port)
 
