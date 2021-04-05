@@ -10,7 +10,7 @@ type Contract struct {
 	SerialValue                string    `json:"serial_value,omitempty"`
 	IntValue                   int64     `json:"int_value,omitempty"`
 	GovernmentContract         bool      `json:"government_contract"`
-	PrivateContract            bool      `json:private_contract`
+	PrivateContract            bool      `json:"private_contract"`
 	Complex                    bool      `josn:"complex"`
 	StagedExecution            bool      `json:"staged_execution"`
 	SpecialLegalRequirements   bool      `json:"special_legal_requirements"`

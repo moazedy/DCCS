@@ -1,6 +1,7 @@
 package datastore
 
 import (
+	//	"DCCS/constants"
 	"DCCS/constants"
 	"fmt"
 	"log"
@@ -18,15 +19,14 @@ func NewCouchbaseSession() (*gocb.Cluster, error) {
 		},
 	)
 	if err != nil {
+		fmt.Println("error on connecting with db :", err.Error())
 		panic(err)
 	}
 	err = cluster.WaitUntilReady(
 		10*time.Second,
-		&gocb.WaitUntilReadyOptions{
-			DesiredState: gocb.ClusterStateOnline,
-		},
-	)
+		&gocb.WaitUntilReadyOptions{DesiredState: gocb.ClusterStateOnline})
 	if err != nil {
+		fmt.Println("error on wait until ready:", err.Error())
 		panic(err)
 	}
 

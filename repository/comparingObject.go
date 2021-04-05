@@ -32,20 +32,20 @@ func (c comparingObject) GetAllComparingObjects() ([]models.ComparingObject, err
 		log.Println(err.Error())
 		return nil, err
 	}
-
 	var cObjects []models.ComparingObject
 	for res.Next() {
 		var cObject models.ComparingObject
 		err = res.Row(&cObject)
 		if err != nil {
 			if err == gocb.ErrNoResult {
-				cObjects = append(cObjects, cObject)
 				return cObjects, nil
 			}
 
 			log.Println(err.Error())
 			return nil, err
 		}
+
+		cObjects = append(cObjects, cObject)
 	}
 
 	return cObjects, nil

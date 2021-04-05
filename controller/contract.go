@@ -60,7 +60,7 @@ func (c *contract) ReadById(ctx *gin.Context) {
 
 func (c *contract) ReadByTitle(ctx *gin.Context) {
 	title := ctx.Param("title")
-	con, err := c.logic.ReadById(title)
+	con, err := c.logic.ReadByTitle(title)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message:": "error on reading contract", "error: ": err.Error()})
 		return

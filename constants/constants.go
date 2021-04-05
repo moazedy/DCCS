@@ -1,7 +1,7 @@
 package constants
 
 const (
-	CouchbaseAddress  = "some address" // TODO assigning real database address
+	CouchbaseAddress  = "127.0.0.1:8091"
 	CouchbaseUsername = "admin"
 	CouchbasePassword = "adminadmin"
 )

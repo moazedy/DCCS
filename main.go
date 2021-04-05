@@ -9,7 +9,6 @@ import (
 func main() {
 
 	datastore.CouchbasePing()
-
 	controller.Run(constants.HttpServingPort)
 
 }
