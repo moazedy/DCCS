@@ -69,6 +69,9 @@ func (c *contract) ReadById(id string) (*models.Contract, error) {
 		}
 	}
 
+	if con.Title == "" {
+		return nil, errors.New("contract does not exist !")
+	}
 	return &con, nil
 }
 
@@ -95,6 +98,10 @@ func (c *contract) ReadByTitle(title string) (*models.Contract, error) {
 			log.Println(err.Error())
 			return nil, err
 		}
+	}
+
+	if con.Title == "" {
+		return nil, errors.New("contract does not exist !")
 	}
 
 	return &con, nil
