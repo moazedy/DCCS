@@ -40,7 +40,8 @@ func (c *contract) Save(ctx *gin.Context) {
 
 	err = c.logic.Save(request)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message:": "error on saving contract"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message:": "error on saving contract",
+			"error ": err.Error()})
 		return
 	}
 
