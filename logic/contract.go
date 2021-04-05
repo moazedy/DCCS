@@ -30,6 +30,13 @@ func NewContractLogic(repo repository.ContractRepo) ContractLogic {
 }
 
 func (c *contract) Save(con models.Contract) error {
+	Exists, err := c.repo.ContractExists(con.Title)
+	if err != nil {
+		return errors.New("internal error")
+	}
+	if *Exists {
+		return errors.New("some contract with this title alredy exists in database")
+	}
 	con.Id = uuid.New()
 	serialValue := utils.ContractToSerialCode(con)
 	con.SerialValue = serialValue
